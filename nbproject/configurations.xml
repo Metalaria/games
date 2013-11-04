@@ -5,6 +5,9 @@
       <df name="bubble_archery">
         <in>buble_archery.c</in>
       </df>
+      <df name="hit_balloon">
+        <in>hit_the_balloon.c</in>
+      </df>
       <df name="snake">
         <in>snake.c</in>
       </df>
@@ -47,6 +50,8 @@
       <item path="bubble_archery/buble_archery.c" ex="false" tool="0" flavor2="2">
         <cTool>
         </cTool>
+      </item>
+      <item path="hit_balloon/hit_the_balloon.c" ex="false" tool="0" flavor2="0">
       </item>
       <item path="snake/snake.c" ex="false" tool="0" flavor2="2">
         <cTool>

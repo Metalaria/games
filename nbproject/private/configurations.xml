@@ -5,6 +5,9 @@
       <df name="bubble_archery">
         <in>buble_archery.c</in>
       </df>
+      <df name="hit_balloon">
+        <in>hit_the_balloon.c</in>
+      </df>
       <df name="snake">
         <in>snake.c</in>
       </df>
