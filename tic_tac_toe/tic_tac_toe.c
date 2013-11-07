@@ -1,18 +1,19 @@
 #include<stdio.h>
 #include<ctype.h>
+#include<stdbool.h>
 
 char pos_board[3][3];
 int count=0;
 char name[20];
-int player_count=0;
-int computer_count=0;
+bool player_count=false;
+bool computer_count=false;
 int z;
 int a=3;
 int b=3;
 int blank_row;
 int blank_column;
 int blank_count=0;
-int draw_count=0;
+bool draw_count=false;
 
 void print()
 {
@@ -136,7 +137,7 @@ int check4()
 {
 	a=3;
 	b=3;
-	if((pos_board[2][0]=='X')&&(pos_board[1][1]=='X')&&(pos_board[0][0]!='O'))
+	if((pos_board[2][0]=='X')&&(pos_board[1][1]=='X')&&(pos_board[0][2]!='O'))
 	{
 		a=0;
 		b=2;
@@ -688,7 +689,7 @@ int check_computer_line()
 
 void draw()
 {
-	draw_count=1;
+	draw_count=true;
 	printf("\n\nGame draw!!!!!\n");
 	return;
 }
@@ -716,7 +717,7 @@ void computer()
 		}
 		else if(count==3)
 		{
-			check_player_line();	                        //To check if player has two continous X
+			check_player_line();				//To check if player has two continous X
 			if(a==3)
 			{
 				find_blank_c3();
@@ -924,7 +925,7 @@ void player_win()
 	{
 		if(pos_board[i][0]=='X' && pos_board[i][1]=='X' && pos_board[i][2]=='X')
 		{
-			player_count=1;
+			player_count=true;
 			printf("\n\nCongrats %s you win\n",name);
 			return;
 		}
@@ -933,20 +934,20 @@ void player_win()
 	{
 		if(pos_board[0][i]=='X' && pos_board[1][i]=='X' && pos_board[2][i]=='X')
 		{
-			player_count=1;
+			player_count=true;
 			printf("\n\nCongrats %s you win\n",name);
 			return;
 		}
 	}
 	if(pos_board[0][0]=='X' && pos_board[1][1]=='X' && pos_board[2][2]=='X')
 	{
-		player_count=1;
+		player_count=true;
 		printf("\n\nCongrats %s you win\n",name);
 		return;
 	}
 	else if(pos_board[0][2]=='X' && pos_board[1][1]=='X' && pos_board[2][0]=='X')
 	{
-		player_count=1;
+		player_count=true;
 		printf("\n\nCongrats %s you win\n",name);
 		return;
 	}
@@ -959,7 +960,7 @@ void computer_win()
 	{
 		if((pos_board[i][0]=='O')&&(pos_board[i][1]=='O')&&(pos_board[i][2]=='O'))
 		{
-			computer_count=1;
+			computer_count=true;
 			printf("\n\nComputer wins!!!!!\n");
 			return;
 		}
@@ -968,20 +969,20 @@ void computer_win()
 	{
 		if(pos_board[0][i]=='O' && pos_board[1][i]=='O' && pos_board[2][i]=='O')
 		{
-			computer_count=1;
+			computer_count=true;
 			printf("\n\nComputer wins!!!!!\n");
 			return;
 		}
 	}
 	if(pos_board[0][0]=='O' && pos_board[1][1]=='O' && pos_board[2][2]=='O')
 	{
-		computer_count=1;
+		computer_count=true;
 		printf("\n\nComputer wins!!!!!\n");
 		return;
 	}
 	else if(pos_board[0][2]=='O' && pos_board[1][1]=='O' && pos_board[2][0]=='O')
 	{
-		computer_count=1;
+		computer_count=true;
 		printf("\n\nComputer wins!!!!!\n");
 		return;
 	}
@@ -1002,19 +1003,13 @@ int main()
 		{
 			printf("\n%s, You want to start (press 1) or you want computer to start (press 2) : ",name);
 			scanf(" %d",&z);
-			if((z!=1)&&(z!=2))
-			{
-				printf("\nYou entered wrong value....... try entering correct value....\n");
-				continue;
-			}
-
 			switch(z)
 			{
 				case 1:
 					count=0;
-					computer_count=0;
-					player_count=0;
-					draw_count=0;
+					computer_count=false;
+					player_count=false;
+					draw_count=false;
 					for(i=0; i<3; ++i)
 					{
 						for(j=0; j<3; ++j)
@@ -1025,20 +1020,20 @@ int main()
 					a=3;
 					b=3;
 					blank_count=0;
-					while((computer_count==0)&&(player_count==0)&&(count<9)&&(draw_count==0))
+					while(!computer_count&&!player_count&&(count<9)&&!draw_count)
 					{
 						player();
 						if(count>=5)
 						{
 							player_win();
-							if(player_count==1)
+							if(player_count)
 								break;
 						}
 						computer();
 						if(count>=5)
 						{
 							computer_win();
-							if(computer_count==1)
+							if(computer_count)
 								break;
 						}
 						if((count==8)&&(check_player_line()==1))
@@ -1046,16 +1041,16 @@ int main()
 							draw();
 						}
 					}
-					if((count==9)&&(player_count==0)&&(computer_count==0)&&(draw_count==0))
+					if((count==9)&&!player_count&&!computer_count&&!draw_count)
 					{
 						draw();
 					}
 					break;
 				case 2:
 					count=0;
-					computer_count=0;
-					player_count=0;
-					draw_count=0;
+					computer_count=false;
+					player_count=false;
+					draw_count=false;
 					for(i=0; i<3; ++i)
 					{
 						for(j=0; j<3; ++j)
@@ -1066,20 +1061,20 @@ int main()
 					a=3;
 					b=3;
 					blank_count=0;
-					while((computer_count==0)&&(player_count==0)&&(count<9)&&(draw_count==0))
+					while(!computer_count&&!player_count&&(count<9)&&!draw_count)
 					{
 						computer();
 						if(count>=4)
 						{
 							computer_win();
-							if(computer_count==1)
+							if(computer_count)
 								break;
 						}
 						player();
 						if(count>=4)
 						{
 							player_win();
-							if(player_count==1)
+							if(player_count)
 								break;
 						}
 						if((count==8)&&(check_computer_line()==1))
@@ -1087,12 +1082,14 @@ int main()
 							draw();
 						}
 					}
-					if((count==9)&&(player_count==0)&&(computer_count==0)&&(draw_count==0))
+					if((count==9)&&!player_count&&!computer_count&&!draw_count)
 					{
 						draw();
 					}
 					break;
-
+		default:
+			printf("\nYou entered wrong value....... try entering correct value....\n");
+		    continue;
 			}
 			printf("\n\nWant to play again!!!!!!! (y/n)");
 			scanf(" %c",&ch);
