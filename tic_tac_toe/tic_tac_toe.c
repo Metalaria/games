@@ -49,7 +49,7 @@ void player()
 	}
 }
 
-int check1()
+bool check1()
 {
 	a=3;
 	b=3;
@@ -72,15 +72,10 @@ int check1()
 			b=1;
 		}
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check2()
+bool check2()
 {
 	a=3;
 	b=3;
@@ -103,15 +98,10 @@ int check2()
 			b=j;
 		}
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check3()
+bool check3()
 {
 	a=3;
 	b=3;
@@ -125,15 +115,10 @@ int check3()
 		a=0;
 		b=0;
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check4()
+bool check4()
 {
 	a=3;
 	b=3;
@@ -147,36 +132,12 @@ int check4()
 		a=2;
 		b=0;
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check_player_line()
+bool check_player_line()
 {
-	if(check1()==0)
-	{
-		return 0;
-	}
-	else if(check2()==0)
-	{
-		return 0;
-	}
-	else if(check3()==0)
-	{
-		return 0;
-	}
-	else if(check4()==0)
-	{
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}
+	return (check1() && check2() && check3() && check4());
 }
 
 void find_blank_c3()							// To find blank position in proximity of computer position when count=3 and z=1
@@ -558,7 +519,7 @@ void find_blank_c4()							// To find blank position in proximity of computer po
 	}
 }
 
-int check1_AI()
+bool check1_AI()
 {
 	a=3;
 	b=3;
@@ -581,15 +542,10 @@ int check1_AI()
 			b=1;
 		}
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check2_AI()
+bool check2_AI()
 {
 	a=3;
 	b=3;
@@ -612,15 +568,10 @@ int check2_AI()
 			b=j;
 		}
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check3_AI()
+bool check3_AI()
 {
 	a=3;
 	b=3;
@@ -634,14 +585,9 @@ int check3_AI()
 		a=0;
 		b=0;
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
-int check4_AI()
+bool check4_AI()
 {
 	a=3;
 	b=3;
@@ -655,36 +601,12 @@ int check4_AI()
 		a=2;
 		b=0;
 	}
-	if(a==3)
-	{
-		return 1;
-	}
-	else
-		return 0;
+	return a==3;
 }
 
-int check_computer_line()
+bool check_computer_line()
 {
-	if(check1_AI()==0)
-	{
-		return 0;
-	}
-	else if(check2_AI()==0)
-	{
-		return 0;
-	}
-	else if(check3_AI()==0)
-	{
-		return 0;
-	}
-	else if(check4_AI()==0)
-	{
-		return 0;
-	}
-	else
-	{
-		return 1;
-	}
+	return(check1_AI() && check2_AI() && check3_AI() && check4_AI());
 }
 
 void draw()
@@ -739,7 +661,7 @@ void computer()
 			check_computer_line();
 			if(a==3)
 			{
-				if(check_player_line()==0)
+				if(!check_player_line())
 				{
 					pos_board[a][b]='O';
 					count++;
@@ -768,7 +690,7 @@ void computer()
 			check_computer_line();
 			if(a==3)
 			{
-				if(check_player_line()==0)
+				if(!check_player_line())
 				{
 					pos_board[a][b]='O';
 					count++;
@@ -837,7 +759,7 @@ void computer()
 			check_computer_line();
 			if(a==3)
 			{
-				if(check_player_line()==0)
+				if(!check_player_line())
 				{
 					pos_board[a][b]='O';
 					printf("\n\nAfter computer's turn board is : \n\n");
@@ -866,7 +788,7 @@ void computer()
 			check_computer_line();
 			if(a==3)
 			{
-				if(check_player_line()==0)
+				if(!check_player_line())
 				{
 					pos_board[a][b]='O';
 					printf("\n\nAfter computer's turn board is : \n\n");
@@ -1036,7 +958,7 @@ int main()
 							if(computer_count)
 								break;
 						}
-						if((count==8)&&(check_player_line()==1))
+						if((count==8)&&check_player_line())
 						{
 							draw();
 						}
@@ -1077,7 +999,7 @@ int main()
 							if(player_count)
 								break;
 						}
-						if((count==8)&&(check_computer_line()==1))
+						if((count==8)&&check_computer_line())
 						{
 							draw();
 						}
