@@ -54,22 +54,15 @@ bool check1()
 	a=3;
 	b=3;
 	int i,j;
-	for(i=0; i<3; ++i)
+	for(i=0;i<3;++i)
 	{
-		if((pos_board[i][0]=='X')&&(pos_board[i][1]=='X')&&(pos_board[i][2]!='O'))
+		for(j=0;j<3;++j)
 		{
-			a=i;
-			b=2;
-		}
-		else if((pos_board[i][1]=='X')&&(pos_board[i][2]=='X')&&(pos_board[i][0]!='O'))
-		{
-			a=i;
-			b=0;
-		}
-		else if((pos_board[i][0]=='X')&&(pos_board[i][2]=='X')&&(pos_board[i][1]!='O'))
-		{
-			a=i;
-			b=1;
+			if((pos_board[i][j]!='O') && (pos_board[i][(j+1)%3]=='X') && (pos_board[i][(j+2)%3]=='X'))
+			{
+				a=i;
+				b=j;
+			}
 		}
 	}
 	return a==3;
@@ -80,22 +73,15 @@ bool check2()
 	a=3;
 	b=3;
 	int i,j;
-	for(j =0;j<3;++j)
+	for(i=0;i<3;++i)
 	{
-		if((pos_board[0][j]=='X')&&(pos_board[1][j]=='X')&&(pos_board[2][j]!='O'))
+		for(j=0;j<3;++j)
 		{
-			a=2;
-			b=j;
-		}
-		else if((pos_board[1][j]=='X')&&(pos_board[2][j]=='X')&&(pos_board[0][j]!='O'))
-		{
-			a=0;
-			b=j;
-		}
-		else if((pos_board[0][j]=='X')&&(pos_board[2][j]=='X')&&(pos_board[1][j]!='O'))
-		{
-			a=1;
-			b=j;
+			if((pos_board[i][j]!='O') && (pos_board[(i+1)%3][j]=='X') && (pos_board[(i+2)%3][j]=='X'))
+			{
+				a=i;
+				b=j;
+			}
 		}
 	}
 	return a==3;
@@ -112,8 +98,8 @@ bool check3()
 	}
 	else if((pos_board[1][1]=='X')&&(pos_board[2][2]=='X')&&(pos_board[0][0]!='O'))
 	{
-		a=0;
-		b=0;
+		a=2;
+		b=2;
 	}
 	return a==3;
 }
@@ -524,22 +510,15 @@ bool check1_AI()
 	a=3;
 	b=3;
 	int i,j;
-	for(i=0; i<3; ++i)
+	for(i=0;i<3;++i)
 	{
-		if((pos_board[i][0]=='O')&&(pos_board[i][1]=='O')&&(pos_board[i][2]!='X'))
+		for(j=0;j<3;++j)
 		{
-			a=i;
-			b=2;
-		}
-		else if((pos_board[i][1]=='O')&&(pos_board[i][2]=='O')&&(pos_board[i][0]!='X'))
-		{
-			a=i;
-			b=0;
-		}
-		else if((pos_board[i][0]=='O')&&(pos_board[i][2]=='O')&&(pos_board[i][1]!='X'))
-		{
-			a=i;
-			b=1;
+			if((pos_board[i][j]!='O') && (pos_board[i][(j+1)%3]=='X') && (pos_board[i][(j+2)%3]=='X'))
+			{
+				a=i;
+				b=j;
+			}
 		}
 	}
 	return a==3;
@@ -550,22 +529,15 @@ bool check2_AI()
 	a=3;
 	b=3;
 	int i,j;
-	for(j =0;j<3;++j)
+	for(i=0;i<3;++i)
 	{
-		if((pos_board[0][j]=='O')&&(pos_board[1][j]=='O')&&(pos_board[2][j]!='X'))
+		for(j=0;j<3;++j)
 		{
-			a=2;
-			b=j;
-		}
-		else if((pos_board[1][j]=='O')&&(pos_board[2][j]=='O')&&(pos_board[0][j]!='X'))
-		{
-			a=0;
-			b=j;
-		}
-		else if((pos_board[0][j]=='O')&&(pos_board[2][j]=='O')&&(pos_board[1][j]!='X'))
-		{
-			a=1;
-			b=j;
+			if((pos_board[i][j]!='O') && (pos_board[(i+1)%3][j]=='X') && (pos_board[(i+2)%3][j]=='X'))
+			{
+				a=i;
+				b=j;
+			}
 		}
 	}
 	return a==3;
@@ -951,7 +923,7 @@ int main()
 					break;
 		default:
 			printf("\nYou entered wrong value....... try entering correct value....\n");
-		    continue;
+			continue;
 			}
 			printf("\n\nWant to play again!!!!!!! (y/n)");
 			scanf(" %c",&ch);
