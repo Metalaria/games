@@ -479,40 +479,40 @@ void find_blank_c4()							// To find blank position in proximity of computer po
 						{
 							blank_count=blank_count+2;
 						}
+					}
+					if(blank_count==2)
+					{
+						blank_row=0;
+						blank_column=2;
+						return;
+					}
+					else
+					{
+						if((pos_board[1][0]=='-')&&(pos_board[1][2]=='-'))
+						{
+							blank_count=blank_count+2;
 						}
 						if(blank_count==2)
 						{
-							blank_row=0;
-							blank_column=2;
+							blank_row=1;
+							blank_column=0;
 							return;
 						}
 						else
 						{
-							if((pos_board[1][0]=='-')&&(pos_board[1][2]=='-'))
+							blank_count=0;
+							if((pos_board[0][1]=='-')&&(pos_board[2][1]=='-'))
 							{
 								blank_count=blank_count+2;
 							}
 							if(blank_count==2)
 							{
-								blank_row=1;
-								blank_column=0;
+								blank_row=0;
+								blank_column=1;
 								return;
 							}
-							else
-							{
-								blank_count=0;
-								if((pos_board[0][1]=='-')&&(pos_board[2][1]=='-'))
-								{
-									blank_count=blank_count+2;
-								}
-								if(blank_count==2)
-								{
-									blank_row=0;
-									blank_column=1;
-									return;
-								}
-							}
 						}
+					}
 				}
 			}
 		}
@@ -616,6 +616,14 @@ void draw()
 	return;
 }
 
+void computer_play(int x, int y)
+{
+	pos_board[x][y]='O';
+	printf("\n\nAfter computer's turn board is : \n\n");
+	print();
+	count++;
+}
+
 void computer()
 {
 	if(z==1)
@@ -624,17 +632,11 @@ void computer()
 		{
 			if(pos_board[1][1]=='X')
 			{
-				pos_board[0][0]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(0,0);
 			}
 			else
 			{
-				pos_board[1][1]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(1,1);
 			}
 		}
 		else if(count==3)
@@ -643,17 +645,11 @@ void computer()
 			if(a==3)
 			{
 				find_blank_c3();
-				pos_board[blank_row][blank_column]='O';
-				count++;
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
+				computer_play(blank_row,blank_column);
 			}
 			else
 			{
-				pos_board[a][b]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(a,b);
 			}
 		}
 		else if(count==5)
@@ -663,26 +659,17 @@ void computer()
 			{
 				if(!check_player_line())
 				{
-					pos_board[a][b]='O';
-					count++;
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
+					computer_play(a,b);
 				}
 				else
 				{
 					find_blank_c3();
-					pos_board[blank_row][blank_column]='O';
-					count++;
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
+					computer_play(blank_row,blank_column);
 				}
 			}
 			else
 			{
-				pos_board[a][b]='O';
-				count++;
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
+				computer_play(a,b);
 			}
 		}
 		else if(count==7)
@@ -692,66 +679,43 @@ void computer()
 			{
 				if(!check_player_line())
 				{
-					pos_board[a][b]='O';
-					count++;
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
+					computer_play(a,b);
 				}
 				else
 				{
 					draw();
 				}
-
 			}
 			else
 			{
-				pos_board[a][b]='O';
-				count++;
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
+				computer_play(a,b);
 			}
 		}
-
 	}
 
 	if(z==2)
 	{
 		if(count==0)
 		{
-			pos_board[1][1]='O';
-			printf("\n\nAfter computer's turn board is : \n\n");
-			print();
-			count++;
+			computer_play(1,1);
 		}
 		else if(count==2)
 		{
 			if(pos_board[0][0]!='X')
 			{
-				pos_board[0][0]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(0,0);
 			}
 			else if(pos_board[0][2]!='X')
 			{
-				pos_board[0][2]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(0,2);
 			}
 			else if(pos_board[2][0]!='X')
 			{
-				pos_board[2][0]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(2,0);
 			}
 			else if(pos_board[2][2]!='X')
 			{
-				pos_board[2][2]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(2,2);
 			}
 		}
 		else if(count==4)
@@ -761,26 +725,17 @@ void computer()
 			{
 				if(!check_player_line())
 				{
-					pos_board[a][b]='O';
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
-					count++;
+					computer_play(a,b);
 				}
 				else
 				{
 					find_blank_c4();
-					pos_board[blank_row][blank_column]='O';
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
-					count++;
+					computer_play(blank_row,blank_column);
 				}
 			}
 			else
 			{
-				pos_board[a][b]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(a,b);
 			}
 		}
 		else if(count==6)
@@ -790,26 +745,17 @@ void computer()
 			{
 				if(!check_player_line())
 				{
-					pos_board[a][b]='O';
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
-					count++;
+					computer_play(a,b);
 				}
 				else
 				{
 					find_blank_c4();
-					pos_board[blank_row][blank_column]='O';
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
-					count++;
+					computer_play(blank_row,blank_column);
 				}
 			}
 			else
 			{
-				pos_board[a][b]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(a,b);
 			}
 		}
 		else if(count==8)
@@ -819,10 +765,7 @@ void computer()
 			{
 				if(check_player_line())
 				{
-					pos_board[a][b]='O';
-					printf("\n\nAfter computer's turn board is : \n\n");
-					print();
-					count++;
+					computer_play(a,b);
 				}
 				else
 				{
@@ -831,10 +774,7 @@ void computer()
 			}
 			else
 			{
-				pos_board[a][b]='O';
-				printf("\n\nAfter computer's turn board is : \n\n");
-				print();
-				count++;
+				computer_play(a,b);
 			}
 		}
 	}
