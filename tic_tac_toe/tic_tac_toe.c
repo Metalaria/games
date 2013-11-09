@@ -822,6 +822,25 @@ void computer_win()
 	}
 }
 
+int init()
+{
+    int i,j;
+	count=0;
+	computer_count=false;
+	player_count=false;
+	draw_count=false;
+	for(i=0; i<3; ++i)
+	{
+		for(j=0; j<3; ++j)
+		{
+			pos_board[i][j]='-';
+		}
+	}
+	a=3;
+	b=3;
+	blank_count=0;
+}
+
 int main()
 {
 	int i,j;
@@ -830,106 +849,76 @@ int main()
 	scanf(" %s",&name);
 	start :printf("\nHello %s ,Wanna play tic tac toe!!!\n",name);
 	scanf(" %c",&w);
-	if(w=='y' || w=='Y')
+	while(w=='y' || w=='Y')
 	{
-		char ch='y';
-		while((ch=='y')||(ch=='Y'))
+		printf("\n%s, You want to start (press 1) or you want computer to start (press 2) : ",name);
+		scanf(" %d",&z);
+		switch(z)
 		{
-			printf("\n%s, You want to start (press 1) or you want computer to start (press 2) : ",name);
-			scanf(" %d",&z);
-			switch(z)
-			{
-				case 1:
-					count=0;
-					computer_count=false;
-					player_count=false;
-					draw_count=false;
-					for(i=0; i<3; ++i)
+			case 1:
+				init();
+				while(!computer_count&&!player_count&&(count<9)&&!draw_count)
+				{
+					player();
+					if(count>=5)
 					{
-						for(j=0; j<3; ++j)
-						{
-							pos_board[i][j]='-';
-						}
+						player_win();
+						if(player_count)
+							break;
 					}
-					a=3;
-					b=3;
-					blank_count=0;
-					while(!computer_count&&!player_count&&(count<9)&&!draw_count)
+					computer();
+					if(count>=5)
 					{
-						player();
-						if(count>=5)
-						{
-							player_win();
-							if(player_count)
-								break;
-						}
-						computer();
-						if(count>=5)
-						{
-							computer_win();
-							if(computer_count)
-								break;
-						}
-						if((count==8)&&check_player_line())
-						{
-							draw();
-						}
+						computer_win();
+						if(computer_count)
+							break;
 					}
-					if((count==9)&&!player_count&&!computer_count&&!draw_count)
+					if((count==8)&&check_player_line())
 					{
 						draw();
 					}
-					break;
-				case 2:
-					count=0;
-					computer_count=false;
-					player_count=false;
-					draw_count=false;
-					for(i=0; i<3; ++i)
+				}
+				if((count==9)&&!player_count&&!computer_count&&!draw_count)
+				{
+					draw();
+				}
+				break;
+			case 2:
+				init();
+				while(!computer_count&&!player_count&&(count<9)&&!draw_count)
+				{
+					computer();
+					if(count>=4)
 					{
-						for(j=0; j<3; ++j)
-						{
-							pos_board[i][j]='-';
-						}
+						computer_win();
+						if(computer_count)
+							break;
 					}
-					a=3;
-					b=3;
-					blank_count=0;
-					while(!computer_count&&!player_count&&(count<9)&&!draw_count)
+					player();
+					if(count>=4)
 					{
-						computer();
-						if(count>=4)
-						{
-							computer_win();
-							if(computer_count)
-								break;
-						}
-						player();
-						if(count>=4)
-						{
-							player_win();
-							if(player_count)
-								break;
-						}
-						if((count==8)&&check_computer_line())
-						{
-							draw();
-						}
+						player_win();
+						if(player_count)
+							break;
 					}
-					if((count==9)&&!player_count&&!computer_count&&!draw_count)
+					if((count==8)&&check_computer_line())
 					{
 						draw();
 					}
-					break;
-		default:
-			printf("\nYou entered wrong value....... try entering correct value....\n");
-			continue;
-			}
-			printf("\n\nWant to play again!!!!!!! (y/n)");
-			scanf(" %c",&ch);
+				}
+				if((count==9)&&!player_count&&!computer_count&&!draw_count)
+				{
+					draw();
+				}
+				break;
+			default:
+				printf("\nYou entered wrong value....... try entering correct value....\n");
+				continue;
 		}
+		printf("\n\nWant to play again!!!!!!! (y/n)");
+		scanf(" %c",&w);
 	}
-	else if(w=='n' || w=='N')
+	if(w=='n' || w=='N')
 	{
 		printf("\n\t\tBye %s Have A Nice Day !!!",name);
 	}
