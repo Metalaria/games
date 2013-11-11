@@ -98,8 +98,8 @@ bool check3()
 	}
 	else if((pos_board[1][1]=='X')&&(pos_board[2][2]=='X')&&(pos_board[0][0]!='O'))
 	{
-		a=2;
-		b=2;
+		a=0;
+		b=0;
 	}
 	return a==3;
 }
@@ -514,7 +514,7 @@ bool check1_AI()
 	{
 		for(j=0;j<3;++j)
 		{
-			if((pos_board[i][j]!='O') && (pos_board[i][(j+1)%3]=='X') && (pos_board[i][(j+2)%3]=='X'))
+			if((pos_board[i][j]!='X') && (pos_board[i][(j+1)%3]=='O') && (pos_board[i][(j+2)%3]=='O'))
 			{
 				a=i;
 				b=j;
@@ -533,7 +533,7 @@ bool check2_AI()
 	{
 		for(j=0;j<3;++j)
 		{
-			if((pos_board[i][j]!='O') && (pos_board[(i+1)%3][j]=='X') && (pos_board[(i+2)%3][j]=='X'))
+			if((pos_board[i][j]!='X') && (pos_board[(i+1)%3][j]=='O') && (pos_board[(i+2)%3][j]=='O'))
 			{
 				a=i;
 				b=j;
