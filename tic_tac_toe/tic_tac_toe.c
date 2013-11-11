@@ -1,12 +1,10 @@
-#include<stdio.h>
-#include<ctype.h>
-#include<stdbool.h>
+#include <stdio.h>
+#include <ctype.h>
+#include <stdbool.h>
 
 char pos_board[3][3];
 int count=0;
 char name[20];
-bool player_count=false;
-bool computer_count=false;
 int z;
 int a=3;
 int b=3;
@@ -752,82 +750,60 @@ void computer()
 	}
 }
 
-void player_win()
+bool player_win()
 {
 	int i;
 	for(i=0;i<3;i++)
 	{
 		if(pos_board[i][0]=='X' && pos_board[i][1]=='X' && pos_board[i][2]=='X')
 		{
-			player_count=true;
-			printf("\n\nCongrats %s you win\n",name);
-			return;
+			return true;
 		}
-	}
-	for(i=0;i<3;i++)
-	{
 		if(pos_board[0][i]=='X' && pos_board[1][i]=='X' && pos_board[2][i]=='X')
 		{
-			player_count=true;
-			printf("\n\nCongrats %s you win\n",name);
-			return;
+			return true;
 		}
 	}
 	if(pos_board[0][0]=='X' && pos_board[1][1]=='X' && pos_board[2][2]=='X')
 	{
-		player_count=true;
-		printf("\n\nCongrats %s you win\n",name);
-		return;
+		return true;
 	}
 	else if(pos_board[0][2]=='X' && pos_board[1][1]=='X' && pos_board[2][0]=='X')
 	{
-		player_count=true;
-		printf("\n\nCongrats %s you win\n",name);
-		return;
+		return true;
 	}
+	return false;
 }
 
-void computer_win()
+bool computer_win()
 {
 	int i;
 	for(i=0;i<3;i++)
 	{
 		if((pos_board[i][0]=='O')&&(pos_board[i][1]=='O')&&(pos_board[i][2]=='O'))
 		{
-			computer_count=true;
-			printf("\n\nComputer wins!!!!!\n");
-			return;
+			return true;
 		}
-	}
-	for(i=0;i<3;i++)
-	{
 		if(pos_board[0][i]=='O' && pos_board[1][i]=='O' && pos_board[2][i]=='O')
 		{
-			computer_count=true;
-			printf("\n\nComputer wins!!!!!\n");
-			return;
+			return true;
 		}
 	}
 	if(pos_board[0][0]=='O' && pos_board[1][1]=='O' && pos_board[2][2]=='O')
 	{
-		computer_count=true;
-		printf("\n\nComputer wins!!!!!\n");
-		return;
+		return true;
 	}
 	else if(pos_board[0][2]=='O' && pos_board[1][1]=='O' && pos_board[2][0]=='O')
 	{
-		computer_count=true;
-		printf("\n\nComputer wins!!!!!\n");
-		return;
+		return true;
 	}
+	return false;
 }
 
 int init()
 {
     int i,j;
 	count=0;
-	computer_count=false;
-	player_count=false;
 	draw_count=false;
 	for(i=0; i<3; ++i)
 	{
@@ -857,56 +833,52 @@ int main()
 		{
 			case 1:
 				init();
-				while(!computer_count&&!player_count&&(count<9)&&!draw_count)
+				while(count<9 && !draw_count)
 				{
 					player();
-					if(count>=5)
+					if(count>=5 && player_win())
 					{
-						player_win();
-						if(player_count)
-							break;
+						printf("\n\nCongrats %s you win\n",name);
+						break;
 					}
 					computer();
-					if(count>=5)
+					if(count>=5 && computer_win())
 					{
-						computer_win();
-						if(computer_count)
-							break;
+						printf("\n\nComputer wins!!!!!\n");
+						break;
 					}
-					if((count==8)&&check_player_line())
+					if(count==8 && check_player_line())
 					{
 						draw();
 					}
 				}
-				if((count==9)&&!player_count&&!computer_count&&!draw_count)
+				if(count==9 && !draw_count)
 				{
 					draw();
 				}
 				break;
 			case 2:
 				init();
-				while(!computer_count&&!player_count&&(count<9)&&!draw_count)
+				while(count<9 && !draw_count)
 				{
 					computer();
-					if(count>=4)
+					if(count>=4 && computer_win())
 					{
-						computer_win();
-						if(computer_count)
-							break;
+						printf("\n\nComputer wins!!!!!\n");
+						break;
 					}
 					player();
-					if(count>=4)
+					if(count>=4 && player_win())
 					{
-						player_win();
-						if(player_count)
-							break;
+						printf("\n\nCongrats %s you win\n",name);
+						break;
 					}
-					if((count==8)&&check_computer_line())
+					if(count==8 && check_computer_line())
 					{
 						draw();
 					}
 				}
-				if((count==9)&&!player_count&&!computer_count&&!draw_count)
+				if(count==9 && !draw_count)
 				{
 					draw();
 				}
