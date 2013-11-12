@@ -124,378 +124,65 @@ bool check_player_line()
 	return (check1() && check2() && check3() && check4());
 }
 
-void find_blank_c3()							// To find blank position in proximity of computer position when count=3 and z=1
+bool empty_rest_of_row(int x,int y)
+{
+	return (pos_board[(x+1)%3][y]=='-' && pos_board[(x+2)%3][y]=='-');
+}
+
+bool empty_rest_of_column(int x,int y)
+{
+	return (pos_board[x][(y+1)%3]=='-' && pos_board[x][(y+2)%3]=='-');
+}
+
+void find_blank()		// To find blank position in proximity of computer position when (count==3 and z==1) or (count==4 and z==2)
 {
 	int i,j,k;
 	for(i=0; i<3; ++i)
 	{
 		for(j=0; j<3; ++j)
 		{
-			if((i+j)%2!=0)
-			{
-				continue;
-			}
-			else
-			{
 			if(pos_board[i][j]=='O')
 			{
-				if((i==0)&&(j==0))
+				if(i%2==0 && j%2==0) //i and j are either 0 or 2
 				{
-					if((pos_board[0][1]=='-')&&(pos_board[0][2]=='-'))
+					if(empty_rest_of_row(i,j))
 					{
-						blank_count=blank_count+2;
+						blank_row=2-i;
+						blank_column=j;
+						return;
 					}
-					if(blank_count==2)
+					else if(empty_rest_of_column(i,j))
+					{
+						blank_row=i;
+						blank_column=2-j;
+						return;
+					}
+				}
+				else if(i==1 && j==1)
+				{
+					if(empty_rest_of_row(1,1))
 					{
 						blank_row=0;
-						blank_column=2;
+						blank_column=1;
 						return;
 					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[1][0]=='-')&&(pos_board[2][0]=='-'))
-						{
-							blank_count=blank_count+2;
-						}
-						if(blank_count==2)
-						{
-							blank_row=2;
-							blank_column=0;
-							return;
-						}
-					}
-				}
-				else if((i==0)&&(j==2))
-				{
-					if((pos_board[0][0]=='-')&&(pos_board[0][1]=='-'))
-					{
-						blank_count=blank_count+2;
-					}
-					if(blank_count==2)
-					{
-						blank_row=0;
-						blank_column=0;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[1][2]=='-')&&(pos_board[2][2]=='-'))
-						{
-							blank_count=blank_count+2;
-						}
-						if(blank_count==2)
-						{
-							blank_row=2;
-							blank_column=2;
-							return;
-						}
-					}
-				}
-				else if((i==2)&&(j==2))
-				{
-					if((pos_board[2][0]=='-')&&(pos_board[2][1]=='-'))
-					{
-						blank_count=blank_count+2;
-					}
-					if(blank_count==2)
-					{
-						blank_row=2;
-						blank_column=0;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[0][2]=='-')&&(pos_board[1][2]=='-'))
-						{
-							blank_count=blank_count+2;
-						}
-						if(blank_count==2)
-						{
-							blank_row=0;
-							blank_column=2;
-							return;
-						}
-					}
-				}
-				else if((i==2)&&(j==0))
-				{
-					if((pos_board[2][1]=='-')&&(pos_board[2][2]=='-'))
-					{
-						blank_count=blank_count+2;
-					}
-					if(blank_count==2)
-					{
-						blank_row=2;
-						blank_column=2;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[0][0]=='-')&&(pos_board[1][0]=='-'))
-						{
-							blank_count=blank_count+2;
-						}
-						if(blank_count==2)
-						{
-							blank_row=0;
-							blank_column=0;
-							return;
-						}
-					}
-				}
-				else if((i==1)&&(j==1))
-				{
-					if((pos_board[1][0]=='-')&&(pos_board[1][2]=='-'))
-					{
-						blank_count=2;
-					}
-					if(blank_count==2)
+					else if(empty_rest_of_column(1,1))
 					{
 						blank_row=1;
 						blank_column=0;
 						return;
 					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[0][1]=='-')&&(pos_board[2][1]=='-'))
-						{
-							blank_count=2;
-						}
-						if(blank_count==2)
-						{
-							blank_row=0;
-							blank_column=1;
-							return;
-						}
-						else
-						{
-							if((pos_board[0][0]=='-')&&(pos_board[2][2]=='-'))
-							{
-								blank_count=2;
-							}
-							if(blank_count==2)
-							{
-								blank_row=0;
-								blank_column=0;
-								return;
-							}
-							else
-							{
-								if((pos_board[2][0]=='-')&&(pos_board[0][2]=='-'))
-								{
-									blank_count=2;
-								}
-							}
-							if(blank_count==2)
-							{
-								blank_row=0;
-								blank_column=2;
-								return;
-							}
-						}
-					}
-				}
-			}
-		}
-	}
-	}
-}
-
-void find_blank_c4()							// To find blank position in proximity of computer position when count=4 and z=2
-{
-	int i,j,k;
-	for(i=0; i<3; ++i)
-	{
-		for(j=0; j<3; ++j)
-		{
-			if((pos_board[i][j]=='O'))
-			{
-				if((i==0)&&(j==0))
-				{
-					for(k=1; k<3; ++k)
-					{
-						if(pos_board[0][k]=='-')
-						{
-							blank_count++;
-						}
-					}
-					if(blank_count==2)
-					{
-						blank_row=0;
-						blank_column=2;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						for(k=1; k<3; ++k)
-						{
-							if(pos_board[k][0]=='-')
-							{
-								blank_count++;
-							}
-						}
-						if(blank_count==2)
-						{
-							blank_row=2;
-							blank_column=0;
-							return;
-						}
-					}
-				}
-				else if((i==0)&&(j==2))
-				{
-					if((pos_board[0][1]=='-')&&(pos_board[0][0]=='-'))
-					{
-						blank_count++;
-					}
-					if(blank_count==2)
+					else if(pos_board[0][0]=='-' && pos_board[2][2]=='-')
 					{
 						blank_row=0;
 						blank_column=0;
 						return;
 					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[1][2]=='-')&&(pos_board[2][2]=='-'))
-						{
-							blank_count++;
-						}
-						if(blank_count==2)
-						{
-							blank_row=2;
-							blank_column=2;
-							return;
-						}
-					}
-				}
-				else if((i==2)&&(j==2))
-				{
-					for(k=0; k<2; ++k)
-					{
-						if(pos_board[2][k]=='-')
-						{
-							blank_count++;
-						}
-					}
-					if(blank_count==2)
-					{
-						blank_row=2;
-						blank_column=0;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						for(k=0; k<2; ++k)
-						{
-							if(pos_board[k][2]=='-')
-							{
-								blank_count++;
-							}
-						}
-						if(blank_count==2)
-						{
-							blank_row=0;
-							blank_column=2;
-							return;
-						}
-					}
-				}
-				else if((i==2)&&(j==0))
-				{
-					for(k=1; k<3; ++k)
-					{
-						if(pos_board[2][k]=='-')
-						{
-							blank_count++;
-						}
-					}
-					if(blank_count==2)
-					{
-						blank_row=2;
-						blank_column=2;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						for(k=0; k<2; ++k)
-						{
-							if(pos_board[k][0]=='-')
-							{
-								blank_count++;
-							}
-						}
-						if(blank_count==2)
-						{
-							blank_row=0;
-							blank_column=0;
-							return;
-						}
-					}
-				}
-				else if((i==1)&&(j==1))
-				{
-					for(k=0; k<3; k=k+2)
-					{
-						if(pos_board[k][k]=='-')
-						{
-							blank_count++;
-						}
-					}
-					if(blank_count==2)
-					{
-						blank_row=0;
-						blank_column=0;
-						return;
-					}
-					else
-					{
-						blank_count=0;
-						if((pos_board[2][0]=='-')&&(pos_board[0][2]=='-'))
-						{
-							blank_count=blank_count+2;
-						}
-					}
-					if(blank_count==2)
+					else if(pos_board[0][2]=='-' && pos_board[2][0]=='-')
 					{
 						blank_row=0;
 						blank_column=2;
 						return;
-					}
-					else
-					{
-						if((pos_board[1][0]=='-')&&(pos_board[1][2]=='-'))
-						{
-							blank_count=blank_count+2;
-						}
-						if(blank_count==2)
-						{
-							blank_row=1;
-							blank_column=0;
-							return;
-						}
-						else
-						{
-							blank_count=0;
-							if((pos_board[0][1]=='-')&&(pos_board[2][1]=='-'))
-							{
-								blank_count=blank_count+2;
-							}
-							if(blank_count==2)
-							{
-								blank_row=0;
-								blank_column=1;
-								return;
-							}
-						}
 					}
 				}
 			}
@@ -634,7 +321,7 @@ void computer()
 			check_player_line();				//To check if player has two continous X
 			if(a==3)
 			{
-				find_blank_c3();
+				find_blank();
 				computer_play(blank_row,blank_column);
 			}
 			else
@@ -653,7 +340,7 @@ void computer()
 				}
 				else
 				{
-					find_blank_c3();
+					find_blank();
 					computer_play(blank_row,blank_column);
 				}
 			}
@@ -719,7 +406,7 @@ void computer()
 				}
 				else
 				{
-					find_blank_c4();
+					find_blank();
 					computer_play(blank_row,blank_column);
 				}
 			}
@@ -839,11 +526,13 @@ int main()
 					if(count>=5 && player_win())
 					{
 						set_player_win();
+						break;
 					}
 					computer();
 					if(count>=5 && computer_win())
 					{
 						set_computer_win();
+						break;
 					}
 					if(count==8 && check_player_line())
 					{
@@ -863,11 +552,13 @@ int main()
 					if(count>=4 && computer_win())
 					{
 						set_computer_win();
+						break;
 					}
 					player();
 					if(count>=4 && player_win())
 					{
 						set_player_win();
+						break;
 					}
 					if(count==8 && check_computer_line())
 					{
