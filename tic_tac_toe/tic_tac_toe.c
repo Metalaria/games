@@ -11,7 +11,7 @@ int b=3;
 int blank_row;
 int blank_column;
 int blank_count=0;
-bool draw_count=false;
+bool end;
 
 void print()
 {
@@ -579,9 +579,29 @@ bool check_computer_line()
 	return(check1_AI() && check2_AI() && check3_AI() && check4_AI());
 }
 
-void draw()
+void game_end()
 {
-	draw_count=true;
+	end=true;
+	return;
+}
+
+void set_player_win()
+{
+	game_end();
+	printf("\n\nCongrats %s you win\n",name);
+	return;
+}
+
+void set_computer_win()
+{
+	game_end();
+	printf("\n\nComputer wins!!!!!\n");
+	return;
+}
+
+void set_draw()
+{
+	game_end();
 	printf("\n\nGame draw!!!!!\n");
 	return;
 }
@@ -653,7 +673,7 @@ void computer()
 				}
 				else
 				{
-					draw();
+					set_draw();
 				}
 			}
 			else
@@ -688,27 +708,7 @@ void computer()
 				computer_play(2,2);
 			}
 		}
-		else if(count==4)
-		{
-			check_computer_line();
-			if(a==3)
-			{
-				if(!check_player_line())
-				{
-					computer_play(a,b);
-				}
-				else
-				{
-					find_blank_c4();
-					computer_play(blank_row,blank_column);
-				}
-			}
-			else
-			{
-				computer_play(a,b);
-			}
-		}
-		else if(count==6)
+		else if(count==4 || count==6)
 		{
 			check_computer_line();
 			if(a==3)
@@ -739,7 +739,7 @@ void computer()
 				}
 				else
 				{
-					draw();
+					set_draw();
 				}
 			}
 			else
@@ -804,7 +804,7 @@ int init()
 {
     int i,j;
 	count=0;
-	draw_count=false;
+	end=false;
 	for(i=0; i<3; ++i)
 	{
 		for(j=0; j<3; ++j)
@@ -833,54 +833,50 @@ int main()
 		{
 			case 1:
 				init();
-				while(count<9 && !draw_count)
+				while(count<9 && !end)
 				{
 					player();
 					if(count>=5 && player_win())
 					{
-						printf("\n\nCongrats %s you win\n",name);
-						break;
+						set_player_win();
 					}
 					computer();
 					if(count>=5 && computer_win())
 					{
-						printf("\n\nComputer wins!!!!!\n");
-						break;
+						set_computer_win();
 					}
 					if(count==8 && check_player_line())
 					{
-						draw();
+						set_draw();
 					}
 				}
-				if(count==9 && !draw_count)
+				if(count==9)
 				{
-					draw();
+					set_draw();
 				}
 				break;
 			case 2:
 				init();
-				while(count<9 && !draw_count)
+				while(count<9 && !end)
 				{
 					computer();
 					if(count>=4 && computer_win())
 					{
-						printf("\n\nComputer wins!!!!!\n");
-						break;
+						set_computer_win();
 					}
 					player();
 					if(count>=4 && player_win())
 					{
-						printf("\n\nCongrats %s you win\n",name);
-						break;
+						set_player_win();
 					}
 					if(count==8 && check_computer_line())
 					{
-						draw();
+						set_draw();
 					}
 				}
-				if(count==9 && !draw_count)
+				if(count==9)
 				{
-					draw();
+					set_draw();
 				}
 				break;
 			default:
